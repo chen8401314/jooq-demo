@@ -92,10 +92,21 @@ jooq {
                 inputSchema = 'test'
                 includes = '.*'
                 excludes = ''
+                forcedTypes {
+                    forcedType {
+                        userType = 'com.example.demo.enumeration.EventStatus'
+                        //converter = 'org.jooq.Converter.ofNullable(Integer.class, MyEnum.class, i -> MyEnum.values()[i], MyEnum::ordinal)'
+                        enumConverter = true
+                        //固定表
+                        //includeExpression = "pf_test_t.event_status"
+                        includeExpression = ".*\\.event_status"
+                        includeTypes = '.*'
+                    }
+                }
             }
             generate {
-				pojos = 'true'
-				daos = 'true'
+                pojos = 'true'
+                daos = 'true'
                 springAnnotations = 'true'
             }
             target {
