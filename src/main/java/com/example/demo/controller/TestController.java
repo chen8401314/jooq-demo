@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.Response;
-import com.example.demo.jooq.tables.pojos.Test;
+import com.example.demo.jooq.tables.pojos.TestPOJO;
 import com.example.demo.service.TestService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class TestController {
 
     @ApiOperation(value = "根据ID查询Test")
     @PostMapping(value = "/findById")
-    public Response<Test> findById(@RequestParam String id) {
+    public Response<TestPOJO> findById(@RequestParam String id) {
         return Response.success(testService.selectById(id));
     }
 }

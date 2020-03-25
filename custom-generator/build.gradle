@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	implementation 'org.jooq:jooq-codegen:3.12.3'
+}
