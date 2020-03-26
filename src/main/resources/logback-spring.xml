@@ -24,6 +24,10 @@
         </encoder>
     </appender>
 
+    <logger name="org.jooq" level="DEBUG" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+
     <!-- 开发环境日志级别为INFO -->
     <springProfile name="dev">
         <root level="INFO">

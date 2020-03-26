@@ -2,12 +2,10 @@ package com.example.demo.service;
 
 
 import com.example.demo.dto.PageTestDTO;
-import com.example.demo.dto.TestDTO;
 import com.example.demo.jooq.tables.daos.TestDao;
 import com.example.demo.jooq.tables.pojos.TestEntity;
 import com.example.demo.repository.TestRep;
 import com.example.demo.util.BaseUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,23 +21,26 @@ public class TestService {
     @Autowired
     TestRep testRep;
 
-    public TestDTO selectById(String id) {
-        //TestEntity test = testRep.findById(id);
-        //return TEST_MAPPER.toTestDTO(test);
-        return testRep.findById(id);
+    public TestEntity selectById(String id) {
+        return testDao.findById(id);
     }
 
-    public void saveOrUpdate(TestEntity testEntiy) {
-        if (StringUtils.isEmpty(testEntiy.getId())) {
+    public void save(TestEntity testEntiy) {
             testEntiy.setId(BaseUtil.getUUID());
             testEntiy.setCreateTime(LocalDateTime.now());
-        }
-        testDao.insert(testEntiy);
+            testDao.insert(testEntiy);
+    }
+
+    public void update(TestEntity testEntity){
+        testDao.update(testEntity);
     }
 
     public PageTestDTO findPageByName(int page, int size, String name) {
         return testRep.findPageByName(name, page, size);
     }
 
+    public void delete(String id){
+        testDao.deleteById(id);
+    }
 
 }

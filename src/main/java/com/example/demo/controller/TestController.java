@@ -16,7 +16,7 @@ import static com.example.demo.mapstrut.TestMapper.TEST_MAPPER;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author chenx
@@ -32,20 +32,40 @@ public class TestController {
     @ApiOperation(value = "根据ID查询Test")
     @GetMapping(value = "/findById")
     public Response<TestDTO> findById(@RequestParam String id) {
-        return Response.success(testService.selectById(id));
+        TestEntity testEntity = testService.selectById(id);
+        return Response.success(TEST_MAPPER.toTestDTO(testEntity));
     }
 
-    @ApiOperation(value = "根据ID查询Test")
+    @ApiOperation(value = "保存")
     @PostMapping(value = "/save")
-    public Response<TestDTO> findById(@RequestBody TestReq testReq) {
+    public Response<TestDTO> save(@RequestBody TestReq testReq) {
         TestEntity testEntity = TEST_MAPPER.toTestEntity(testReq);
-        testService.saveOrUpdate(testEntity);
+        testService.save(testEntity);
+        return Response.success();
+    }
+
+    @ApiOperation(value = "更新")
+    @PutMapping(value = "/update")
+    public Response<TestDTO> update(@RequestBody TestReq testReq) {
+        TestEntity testEntity = testService.selectById(testReq.getId());
+        if (testEntity == null) {
+            return Response.failure("找不到该数据！");
+        }
+        TEST_MAPPER.copyTestEntity(testReq, testEntity);
+        testService.update(testEntity);
         return Response.success();
     }
 
     @ApiOperation(value = "根据name查询test分页")
     @GetMapping(value = "/findPageByName")
-    public Response<PageTestDTO> findPageByName(@RequestParam(required = false) String name,@RequestParam int page,@RequestParam int size) {
-        return Response.success(testService.findPageByName(page,size,name));
+    public Response<PageTestDTO> findPageByName(@RequestParam(required = false) String name, @RequestParam int page, @RequestParam int size) {
+        return Response.success(testService.findPageByName(page, size, name));
+    }
+
+    @ApiOperation(value = "根据ID查询Test")
+    @DeleteMapping(value = "/deleteById")
+    public Response<TestDTO> delete(@RequestParam String id) {
+        testService.delete(id);
+        return Response.success();
     }
 }

@@ -4,6 +4,7 @@ import com.example.demo.dto.TestDTO;
 import com.example.demo.jooq.tables.pojos.TestEntity;
 import com.example.demo.request.TestReq;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -16,4 +17,6 @@ public interface TestMapper {
 	TestDTO toTestDTO(TestEntity bean);
 
 	TestEntity toTestEntity(TestReq bean);
+
+	void copyTestEntity(TestReq req,@MappingTarget TestEntity testEntity);
 }
