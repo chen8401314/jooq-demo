@@ -22,7 +22,7 @@ public final class SampleGeneratorStrategy extends DefaultGeneratorStrategy {
         } else if (mode == Mode.DAO) {
             result.append("Dao");
         } else if (mode == Mode.POJO) {
-            result.append("POJO");
+            result.append("Entity");
         } else if (mode == Mode.INTERFACE) {
             result.insert(0, "I");
         } else {

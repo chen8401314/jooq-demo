@@ -21,17 +21,27 @@ plugins {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter:2.0.0.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
-    compile 'mysql:mysql-connector-java:8.0.11'
-    compile 'org.springframework.boot:spring-boot-starter-jooq:2.0.0.RELEASE'
-    compile 'org.projectlombok:lombok:1.16.18'
-    compile 'com.alibaba:fastjson:1.2.15'
-    compile 'com.alibaba:druid:1.1.3'
+    implementation 'org.springframework.boot:spring-boot-starter:2.0.0.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
+    implementation 'mysql:mysql-connector-java:8.0.11'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq:2.0.0.RELEASE'
+    implementation 'org.projectlombok:lombok:1.16.18'
+    implementation 'com.alibaba:fastjson:1.2.15'
+    implementation 'com.alibaba:druid:1.1.3'
 
-    compile 'io.springfox:springfox-swagger2:2.6.1'
-    compile 'io.springfox:springfox-swagger-ui:2.6.1'
-    compile 'org.jooq:jooq-meta:3.12.3'
+    implementation 'io.springfox:springfox-swagger2:2.6.1'
+    implementation 'io.springfox:springfox-swagger-ui:2.6.1'
+    implementation 'org.jooq:jooq-meta:3.12.3'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.10.0'
+    implementation 'org.slf4j:jul-to-slf4j:1.7.25'
+    implementation "org.apache.commons:commons-lang3:${project.commonsLang3Version}"
+
+    compileOnly "org.projectlombok:lombok:${project.lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${project.lombokVersion}"
+
+    compileOnly "org.mapstruct:mapstruct:${project.mapStructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${project.mapStructVersion}"
     compileOnly 'org.jooq:jooq-codegen:3.12.3'
 
 
@@ -105,9 +115,10 @@ jooq {
                 }
             }
             generate {
-                pojos = 'true'
-                daos = 'true'
-                springAnnotations = 'true'
+                pojos = true
+                daos = true
+                springAnnotations = true
+                javaTimeTypes = true
             }
             target {
                 packageName = 'com.example.demo.jooq'
