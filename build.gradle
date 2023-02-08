@@ -1,30 +1,47 @@
-buildscript {
-    ext {
-        springBootVersion = '2.2.2.RELEASE'
+   buildscript {
+
+        dependencies {
+            classpath('mysql:mysql-connector-java:8.0.15')
+            classpath("org.jooq:jooq-codegen:${jooqVersion}")
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        }
+       repositories {
+           mavenLocal()
+           mavenCentral()
+           maven { url 'https://maven.aliyun.com/repository/public/' }
+           maven { url 'https://maven.aliyun.com/repository/spring/' }
+           maven { url 'https://maven.aliyun.com/repository/central/' }
+           maven { url 'https://maven.aliyun.com/repository/google/' }
+           maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+           maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
+       }
     }
-    repositories {
-        mavenLocal()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-    }
-    dependencies {
-        classpath('mysql:mysql-connector-java:8.0.15')
-        classpath('org.jooq:jooq-codegen:3.12.3')
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
+
+
 
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id "nu.studer.jooq" version "4.1"
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id "nu.studer.jooq" version '8.1'
     id 'java'
 }
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://maven.aliyun.com/repository/spring/' }
+    maven { url 'https://maven.aliyun.com/repository/central/' }
+    maven { url 'https://maven.aliyun.com/repository/google/' }
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+    maven { url 'https://maven.aliyun.com/repository/spring-plugin/' }
+}
+
+
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter:2.0.0.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
+    implementation "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
     implementation 'mysql:mysql-connector-java:8.0.11'
-    implementation 'org.springframework.boot:spring-boot-starter-jooq:2.0.0.RELEASE'
     implementation 'org.projectlombok:lombok:1.16.18'
     implementation 'com.alibaba:fastjson:1.2.15'
     implementation 'com.alibaba:druid:1.1.3'
@@ -42,7 +59,7 @@ dependencies {
 
     compileOnly "org.mapstruct:mapstruct:${project.mapStructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${project.mapStructVersion}"
-    compileOnly 'org.jooq:jooq-codegen:3.12.3'
+    compileOnly "org.jooq:jooq-codegen:${jooqVersion}"
 
 
     compileOnly 'org.projectlombok:lombok'
@@ -50,13 +67,14 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    jooqRuntime 'mysql:mysql-connector-java:8.0.11'
-    jooqRuntime project(':custom-generator')
+    jooqGenerator 'mysql:mysql-connector-java:8.0.11'
+    jooqGenerator project(':custom-generator')
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
@@ -85,49 +103,54 @@ test {
 }
 
 jooq {
-    sample(sourceSets.main) {
-        jdbc {
-            driver = 'com.mysql.cj.jdbc.Driver'
-            url = 'jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false'
-            user = 'root'
-            password = 'mysqladm'
-        }
-        generator {
-            name = 'org.jooq.codegen.DefaultGenerator'
-            strategy {
-                name = 'nu.studer.sample.SampleGeneratorStrategy'  // use the custom generator strategy
-            }
-            database {
-                name = 'org.jooq.meta.mysql.MySQLDatabase'
-                inputSchema = 'test'
-                includes = '.*'
-                excludes = ''
-                forcedTypes {
-                    forcedType {
-                        userType = 'com.example.demo.enumeration.EventStatus'
-                        //converter = 'org.jooq.Converter.ofNullable(Integer.class, MyEnum.class, i -> MyEnum.values()[i], MyEnum::ordinal)'
-                        enumConverter = true
-                        //固定表
-                        //includeExpression = "pf_test_t.event_status"
-                        includeExpression = ".*\\.event_status"
-                        includeTypes = '.*'
+    configurations {
+        main {
+            generationTool {
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://localhost:10086/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=false'
+                    user = 'root'
+                    password = 'mysqladm'
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    strategy {
+                       name = 'nu.studer.sample.SampleGeneratorStrategy'  // use the custom generator strategy
+                    }
+                    database {
+                        name = 'org.jooq.meta.mysql.MySQLDatabase'
+                        inputSchema = 'test'
+                        includes = '.*'
+                        excludes = ''
+                        forcedTypes {
+                            forcedType {
+                                userType = 'com.example.demo.enumeration.EventStatus'
+                                //converter = 'org.jooq.Converter.ofNullable(Integer.class, MyEnum.class, i -> MyEnum.values()[i], MyEnum::ordinal)'
+                                enumConverter = true
+                                //固定表
+                                //includeExpression = "pf_test_t.event_status"
+                                includeExpression = ".*\\.event_status"
+                                includeTypes = '.*'
+                            }
+                        }
+                    }
+                    generate {
+                        pojos = true
+                        daos = true
+                        springAnnotations = true
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = 'com.example.demo.jooq'
+                        //directory = 'build/generated/sources/annotationProcessor/java/main'
+                        directory = 'src/main/java'
                     }
                 }
-            }
-            generate {
-                pojos = true
-                daos = true
-                springAnnotations = true
-                javaTimeTypes = true
-            }
-            target {
-                packageName = 'com.example.demo.jooq'
-                directory = 'build/generated/sources/annotationProcessor/java/main'
             }
         }
     }
 }
-tasks.generateSampleJooqSchemaSource.with {
+tasks.named('generateJooq').configure {
     def out = new ByteArrayOutputStream()
     javaExecSpec = { JavaExecSpec s ->
         s.standardOutput = out
@@ -135,10 +158,19 @@ tasks.generateSampleJooqSchemaSource.with {
         s.ignoreExitValue = true
         s.jvmArgs '-Xmx512M'
     }
-    execResultHandler = { ExecResult r ->
-        if (r.exitValue != 0) {
-            throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
-        }
-    }
 }
+/* tasks.generateSampleJooqSchemaSource.with {
+     def out = new ByteArrayOutputStream()
+     javaExecSpec = { JavaExecSpec s ->
+         s.standardOutput = out
+         s.errorOutput = out
+         s.ignoreExitValue = true
+         s.jvmArgs '-Xmx512M'
+     }
+     execResultHandler = { ExecResult r ->
+         if (r.exitValue != 0) {
+             throw new RuntimeException('jOOQ source code generation failed:\n\n' + out.toString())
+         }
+     }
+ }*/
 
