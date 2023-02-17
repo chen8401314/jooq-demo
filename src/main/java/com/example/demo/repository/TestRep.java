@@ -4,6 +4,7 @@ package com.example.demo.repository;
 import com.example.demo.dto.PageTestDTO;
 import com.example.demo.dto.TestDTO;
 import com.example.demo.jooq.tables.TestTable;
+import com.example.demo.jooq.tables.daos.TestDao;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
@@ -15,18 +16,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class TestRep {
+public class TestRep extends TestDao {
 
 
     @Autowired
     DSLContext dsl;
-
     TestTable t = TestTable.PF_TEST_T.as("t");
-
-    public TestDTO findById(String id){
-       TestDTO test = dsl.select().from(t).where(t.ID.eq(id)).fetchOneInto(TestDTO.class);
-       return test;
-    }
 
     public PageTestDTO findPageByName(String name,int page ,int size){
         SelectJoinStep<?> selectCount = dsl.select(DSL.countDistinct(t.ID)).from(t);

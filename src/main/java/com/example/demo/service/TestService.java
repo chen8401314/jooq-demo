@@ -15,32 +15,32 @@ import java.time.LocalDateTime;
 public class TestService {
 
 
-    @Autowired
-    TestDao testDao;
+/*    @Autowired
+    TestDao testDao;*/
 
     @Autowired
     TestRep testRep;
 
     public TestEntity selectById(String id) {
-        return testDao.findById(id);
+        return testRep.findById(id);
     }
 
     public void save(TestEntity testEntiy) {
-            testEntiy.setId(BaseUtil.getUUID());
-            testEntiy.setCreateTime(LocalDateTime.now());
-            testDao.insert(testEntiy);
+        testEntiy.setId(BaseUtil.getUUID());
+        testEntiy.setCreateTime(LocalDateTime.now());
+        testRep.insert(testEntiy);
     }
 
-    public void update(TestEntity testEntity){
-        testDao.update(testEntity);
+    public void update(TestEntity testEntity) {
+        testRep.update(testEntity);
     }
 
     public PageTestDTO findPageByName(int page, int size, String name) {
         return testRep.findPageByName(name, page, size);
     }
 
-    public void delete(String id){
-        testDao.deleteById(id);
+    public void delete(String id) {
+        testRep.deleteById(id);
     }
 
 }
