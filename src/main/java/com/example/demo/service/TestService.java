@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 
-import com.example.demo.dto.PageTestDTO;
 import com.example.demo.jooq.tables.daos.TestDao;
 import com.example.demo.jooq.tables.pojos.TestEntity;
 import com.example.demo.repository.TestRep;
@@ -21,26 +20,26 @@ public class TestService {
     @Autowired
     TestRep testRep;
 
+    @Autowired
+    TestDao testDao;
+
     public TestEntity selectById(String id) {
-        return testRep.findById(id);
+        return testDao.findById(id);
     }
 
     public void save(TestEntity testEntiy) {
         testEntiy.setId(BaseUtil.getUUID());
         testEntiy.setCreateTime(LocalDateTime.now());
-        testRep.insert(testEntiy);
+        testDao.insert(testEntiy);
     }
 
     public void update(TestEntity testEntity) {
-        testRep.update(testEntity);
+        testDao.update(testEntity);
     }
 
-    public PageTestDTO findPageByName(int page, int size, String name) {
-        return testRep.findPageByName(name, page, size);
-    }
 
     public void delete(String id) {
-        testRep.deleteById(id);
+        testDao.deleteById(id);
     }
 
 }

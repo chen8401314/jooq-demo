@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 
 import com.example.demo.Response;
-import com.example.demo.dto.PageTestDTO;
 import com.example.demo.dto.TestDTO;
 import com.example.demo.jooq.tables.pojos.TestEntity;
 import com.example.demo.request.TestReq;
@@ -38,11 +37,12 @@ public class TestController {
 
     @ApiOperation(value = "保存")
     @PostMapping(value = "/save")
-    public Response<TestDTO> save(@RequestBody TestReq testReq) {
+    public Response<Void> save(@RequestBody TestReq testReq) {
         TestEntity testEntity = TEST_MAPPER.toTestEntity(testReq);
         testService.save(testEntity);
         return Response.success();
     }
+
 
     @ApiOperation(value = "更新")
     @PutMapping(value = "/update")
@@ -56,11 +56,6 @@ public class TestController {
         return Response.success();
     }
 
-    @ApiOperation(value = "根据name查询test分页")
-    @GetMapping(value = "/findPageByName")
-    public Response<PageTestDTO> findPageByName(@RequestParam(required = false) String name, @RequestParam int page, @RequestParam int size) {
-        return Response.success(testService.findPageByName(page, size, name));
-    }
 
     @ApiOperation(value = "根据ID查询Test")
     @DeleteMapping(value = "/deleteById")
