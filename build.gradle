@@ -77,7 +77,7 @@ dependencies {
 
     compileOnly "org.mapstruct:mapstruct:${mapStructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
-    compileOnly "org.jooq:jooq-codegen:${jooqVersion}"
+    //compileOnly "org.jooq:jooq-codegen:${jooqVersion}"
 
 
     compileOnly 'org.projectlombok:lombok'
