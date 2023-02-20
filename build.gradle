@@ -135,7 +135,7 @@ jooq {
                         properties {
                             property {
                                 key = 'scripts'
-                                value = 'src/main/resources/sql/database.sql'
+                                value = 'sql/database.sql'
                             }
                             property {
                                 key = 'sort'
