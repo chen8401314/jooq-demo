@@ -11,10 +11,12 @@ import com.example.demo.request.QueryUserReq;
 import com.example.demo.request.UserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.mapstrut.UserMapper.USER_MAPPER;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class UserService {
 
     @Autowired

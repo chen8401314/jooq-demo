@@ -7,10 +7,12 @@ import com.example.demo.repository.TestRep;
 import com.example.demo.util.BaseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class TestService {
 
 

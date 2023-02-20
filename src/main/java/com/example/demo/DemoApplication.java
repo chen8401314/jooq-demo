@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,
-		JooqAutoConfiguration.class,
-		TransactionAutoConfiguration.class})
+@SpringBootApplication
 public class DemoApplication {
 
 	public static void main(String[] args) {
