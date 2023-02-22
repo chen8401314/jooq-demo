@@ -41,7 +41,7 @@ public class UserController {
     @ApiOperation(value = "保存")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody UserReq req) {
-        userService.save(req);
+        userService.save(USER_MAPPER.toEntity(req));
         return Response.success();
     }
 
@@ -52,7 +52,8 @@ public class UserController {
         if (entity == null) {
             return Response.failure("找不到该数据！");
         }
-        userService.update(entity,req);
+        USER_MAPPER.copyProperties(req, entity);
+        userService.update(entity);
         return Response.success();
     }
 
@@ -65,7 +66,7 @@ public class UserController {
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "/deleteById")
     public Response<TestDTO> delete(@RequestParam String id) {
-        userService.delete(id);
+        userService.deleteById(id);
         return Response.success();
     }
 }
