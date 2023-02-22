@@ -12,7 +12,7 @@ public class TestRep {
 
     @Autowired
     DSLContext dsl;
-    TestTable t = TestTable.PF_TEST_T.as("t");
+    TestTable t = TestTable.PF_TEST.as("t");
 
 
 }

@@ -9,7 +9,7 @@ CREATE TABLE pf_test
     event_status VARCHAR2(64),
     is_marry     BIT(1)
 );
-CREATE TABLE pf_user
+CREATE TABLE pf_user_t
 (
     id         CHAR(32) NOT NULL PRIMARY KEY,
     created_dt DATETIME COMMENT '创建时间',
