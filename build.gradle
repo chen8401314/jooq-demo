@@ -2,7 +2,7 @@ buildscript {
 
     dependencies {
         classpath('mysql:mysql-connector-java:8.0.15')
-        classpath("org.jooq:jooq-codegen:${jooqVersion}")
+        //classpath("org.jooq:jooq-codegen:${jooqVersion}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
     repositories {
